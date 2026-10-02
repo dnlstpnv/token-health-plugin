@@ -1,0 +1,14 @@
+{
+  "name": "token-health",
+  "description": "Context window health for Claude Code",
+  "owner": {
+    "name": "stepanovd"
+  },
+  "plugins": [
+    {
+      "name": "token-health-plugin",
+      "source": "./",
+      "description": "Band above the prompt showing context window fill as weather"
+    }
+  ]
+}

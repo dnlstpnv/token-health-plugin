@@ -41,30 +41,44 @@ The idle figures come from the `session.measure` event, which fires after each t
 ## Requirements
 
 - Claude Code with function-hook plugins (built and tested on 2.1.287; the plugin API is early access and may change between releases)
-- `python3` for the install scripts (preinstalled on macOS)
 
 ## Install
 
-### Every session (recommended)
+In Claude Code:
 
-```bash
-./install.sh
+```
+/plugin marketplace add dnlstpnv/token-health-plugin
+/plugin install token-health-plugin@token-health
 ```
 
-It validates the plugin, backs up `~/.claude/settings.json` to `settings.json.bak`, and adds this folder's absolute path to `env.CLAUDE_CODE_PLUGIN_DIRS`. Existing entries are kept. Start a new Claude Code session to load it.
-
-The path is absolute, so moving the folder needs `./uninstall.sh` from the old location and `./install.sh` from the new one.
-
-### One session only
+Or from a shell:
 
 ```bash
-claude --plugin-dir ~/Documents/token-health-plugin
+claude plugin marketplace add dnlstpnv/token-health-plugin
+claude plugin install token-health-plugin@token-health
+```
+
+Start a new session to load it.
+
+### Update
+
+```bash
+claude plugin marketplace update token-health
+claude plugin update token-health-plugin@token-health
 ```
 
 ### Uninstall
 
 ```bash
-./uninstall.sh
+claude plugin uninstall token-health-plugin@token-health
+claude plugin marketplace remove token-health
+```
+
+### One session only, from a clone
+
+```bash
+git clone https://github.com/dnlstpnv/token-health-plugin
+claude --plugin-dir ./token-health-plugin
 ```
 
 ## Customize
@@ -75,7 +89,7 @@ All settings are constants in `hooks/register.tsx`:
 - `HISTORY` sets how many turns the sparkline keeps (default 8)
 - `BAR_WIDTH`, `TICK_MS`, `SPINNER` and `CHARS_PER_TOKEN` shape the animation
 
-In an interactive session the folder is watched, so saving a file reloads the mod with no restart. Run `claude --debug` to see why a hook failed or a band did not draw.
+Edit a clone and load it with `claude --plugin-dir`: in an interactive session that folder is watched, so saving a file reloads the mod with no restart. Run `claude --debug` to see why a hook failed or a band did not draw.
 
 ## Develop
 
@@ -85,15 +99,15 @@ claude plugin test .       # runs tests/*.test.ts
 tsc -p .                   # type-check; needs one load first (see below)
 ```
 
-`tsc` reads the API types from `.claude-plugin/types/`, which Claude Code writes when it loads the plugin. Load it once (install it, or run `claude --plugin-dir .`) before type-checking. That folder is git-ignored.
+`tsc` reads the API types from `.claude-plugin/types/`, which Claude Code writes when it loads the plugin. Load it once with `claude --plugin-dir .` before type-checking. That folder is git-ignored.
 
 ## Layout
 
 ```
-.claude-plugin/plugin.json   manifest
-hooks/hooks.json             names the hooks module
-hooks/register.tsx           the mod
-types/index.d.ts             $.state contract (readings history, running turn)
-tests/weather.test.ts        tests
-install.sh / uninstall.sh    register or remove the folder in ~/.claude/settings.json
+.claude-plugin/plugin.json        manifest
+.claude-plugin/marketplace.json   lists the plugin, so the repo installs as a marketplace
+hooks/hooks.json                  names the hooks module
+hooks/register.tsx                the mod
+types/index.d.ts                  $.state contract (readings history, running turn)
+tests/weather.test.ts             tests
 ```
