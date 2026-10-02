@@ -3,8 +3,8 @@ import type { EngineInterface, Register, SessionContextUsage, Timer } from 'clau
 
 import type { Live, Reading } from '../types'
 
-const readings = atom({ plugin: 'token-weather', key: 'readings' } as const, [])
-const live = atom({ plugin: 'token-weather', key: 'live' } as const, null)
+const readings = atom({ plugin: 'token-health-plugin', key: 'readings' } as const, [])
+const live = atom({ plugin: 'token-health-plugin', key: 'live' } as const, null)
 
 const HISTORY = 8
 const BAR_WIDTH = 20

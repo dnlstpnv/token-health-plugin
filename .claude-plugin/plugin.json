@@ -1,5 +1,5 @@
 {
-  "name": "token-weather",
+  "name": "token-health-plugin",
   "version": "0.1.0",
   "description": "Band above the prompt showing context window fill as weather",
   "author": { "name": "stepanovd" },

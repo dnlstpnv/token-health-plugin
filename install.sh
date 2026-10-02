@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Registers this folder in CLAUDE_CODE_PLUGIN_DIRS inside ~/.claude/settings.json,
-# so every Claude Code session (terminal and desktop) loads token-weather.
+# so every Claude Code session (terminal and desktop) loads token-health-plugin.
 set -euo pipefail
 
 PLUGIN_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

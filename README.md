@@ -1,4 +1,4 @@
-# Token Weather
+# token-health-plugin
 
 A Claude Code mod that shows how full the context window is, as weather, in a band above the prompt.
 
@@ -58,7 +58,7 @@ The path is absolute, so moving the folder needs `./uninstall.sh` from the old l
 ### One session only
 
 ```bash
-claude --plugin-dir ~/Documents/token-weather
+claude --plugin-dir ~/Documents/token-health-plugin
 ```
 
 ### Uninstall

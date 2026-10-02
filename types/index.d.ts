@@ -11,6 +11,6 @@ export type Live = {
 
 declare module 'claude-code' {
   interface PluginState {
-    'token-weather': { readings: Reading[]; live: Live | null }
+    'token-health-plugin': { readings: Reading[]; live: Live | null }
   }
 }

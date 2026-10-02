@@ -22,7 +22,7 @@ test('band reports fill, weather and last-turn delta', async ($, on) => {
   await $.session.measure(measure(161_100))
 
   for (const surface of ['terminal', 'desktop'] as const) {
-    const ui = await $.ui.mount({ plugin: 'token-weather', surface, ...BAND })
+    const ui = await $.ui.mount({ plugin: 'token-health-plugin', surface, ...BAND })
     expect(await ui.find({ type: 'Text', text: 'Storm' })).toBeDefined()
     expect(await ui.find({ type: 'Text', text: /81% of context/ })).toBeDefined()
     expect(await ui.find({ type: 'Text', text: /161\.1k \/ 200k/ })).toBeDefined()
@@ -34,7 +34,7 @@ test('band reports fill, weather and last-turn delta', async ($, on) => {
 test('band stays empty before the first reading', async ($, on) => {
   // stands in for the engine's own band when the mod passes
   on('ui.render', ($, e) => h($.ui.resolve(e).Text, {}, 'engine') as RenderElement)
-  const ui = await $.ui.mount({ plugin: 'token-weather', surface: 'terminal', ...BAND })
+  const ui = await $.ui.mount({ plugin: 'token-health-plugin', surface: 'terminal', ...BAND })
   expect(await ui.find({ type: 'Text', text: /of context/ })).toBeUndefined()
   await ui.unmount()
 })
@@ -60,13 +60,13 @@ test('band animates the running turn and clears when it ends', async ($, on) => 
   await clock.advance(23_040)
 
   const working = { ...BAND, props: { ...BAND.props, isWorking: true } }
-  const ui = await $.ui.mount({ plugin: 'token-weather', surface: 'terminal', ...working })
+  const ui = await $.ui.mount({ plugin: 'token-health-plugin', surface: 'terminal', ...working })
   expect(await ui.find({ type: 'Text', text: /23s · ↓ 785 tokens · writing/ })).toBeDefined()
   expect(await ui.find({ type: 'Text', text: 'Storm' })).toBeDefined()
   await ui.unmount()
 
   await $.turn.complete({ reason: 'answer', turnId: 't1', index: 0, answer: '', toolUses: [], stopReason: 'end_turn' } as never)
-  const idle = await $.ui.mount({ plugin: 'token-weather', surface: 'terminal', ...working })
+  const idle = await $.ui.mount({ plugin: 'token-health-plugin', surface: 'terminal', ...working })
   expect(await idle.find({ type: 'Text', text: /tokens ·/ })).toBeUndefined()
   await idle.unmount()
 })
